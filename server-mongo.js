@@ -30,12 +30,16 @@ const defaultDevOrigins = [
   'http://192.168.100.173:19006'
 ];
 
-// In production, prefer explicit allowlist. If none provided, allow kabya.com and subdomains by default.
+// In production, prefer explicit allowlist. If none provided, allow common frontend domains
 const productionFallbackOrigins = [
   'https://kabya.com',
   'https://www.kabya.com',
   'https://app.kabya.com',
-  'https://api.kabya.com'
+  'https://api.kabya.com',
+  'https://lms-backend-czla.onrender.com',
+  'https://*.vercel.app',
+  'https://*.netlify.app',
+  'https://*.onrender.com'
 ];
 
 const allowedOrigins = configuredCorsOrigins.length
@@ -45,16 +49,28 @@ const allowedOrigins = configuredCorsOrigins.length
 app.use(cors({
   origin: function(origin, callback) {
     if (!origin) return callback(null, true);
+    
+    // Allow all origins in development
+    if (process.env.NODE_ENV !== 'production') {
+      return callback(null, true);
+    }
+    
     const isExplicit = allowedOrigins.includes(origin);
     const isKabyaSubdomain = /(^https?:\/\/)([a-z0-9-]+\.)*kabya\.com(?::\d+)?$/i.test(origin);
     const isVercelPreview = /vercel\.app$/i.test(origin);
     const isNetlifyPreview = /netlify\.app$/i.test(origin);
-    if (isExplicit || isKabyaSubdomain || isVercelPreview || isNetlifyPreview) {
+    const isRenderPreview = /onrender\.com$/i.test(origin);
+    
+    if (isExplicit || isKabyaSubdomain || isVercelPreview || isNetlifyPreview || isRenderPreview) {
       return callback(null, true);
     }
+    
+    console.log('CORS blocked origin:', origin);
     return callback(new Error('CORS not allowed from this origin'));
   },
-  credentials: true
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 app.use(express.json());

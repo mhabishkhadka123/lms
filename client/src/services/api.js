@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL ='https://lms-backend-czla.onrender.com/api';
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://lms-backend-czla.onrender.com/api';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -33,7 +33,7 @@ api.interceptors.response.use(
     } else if (!error.response) {
       // No response received (server not running or network issue)
       console.error('No response from server:', error.message);
-      throw new Error('Server is not responding. Please make sure the backend server is running on port 5000.');
+      throw new Error(`Server is not responding. Please check if the backend is running at ${API_BASE_URL}`);
     }
     return Promise.reject(error);
   }
