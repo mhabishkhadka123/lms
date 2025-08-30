@@ -20,7 +20,8 @@ const defaultDevOrigins = [
   'http://localhost:3000',
   'http://127.0.0.1:3000',
   'http://localhost:19006',
-  'http://192.168.100.173:19006'
+  'http://192.168.100.173:19006',
+  'https://lms-8-qcuc.onrender.com/',
 ];
 
 // In production, prefer explicit allowlist. If none provided, allow kabya.com and subdomains by default.
@@ -28,7 +29,8 @@ const productionFallbackOrigins = [
   'https://kabya.com',
   'https://www.kabya.com',
   'https://app.kabya.com',
-  'https://api.kabya.com'
+  'https://api.kabya.com',
+  'https://lms-8-qcuc.onrender.com/',
 ];
 
 const allowedOrigins = configuredCorsOrigins.length
