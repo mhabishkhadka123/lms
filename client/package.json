@@ -15,9 +15,14 @@
     "lucide-react": "^0.263.1",
     "web-vitals": "^2.1.4"
   },
+  "devDependencies": {
+    "fs-extra": "^11.1.1"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "build:dist": "react-scripts build && npm run copy-build-to-dist",
+    "copy-build-to-dist": "node scripts/copy-build.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
