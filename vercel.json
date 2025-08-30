@@ -5,7 +5,7 @@
       "src": "client/package.json",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "build"
+        "distDir": "dist"
       }
     }
   ],
@@ -16,10 +16,12 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/client/build/$1"
+      "dest": "/client/dist/$1"
     }
   ],
   "env": {
     "REACT_APP_API_URL": "@react_app_api_url"
-  }
+  },
+  "buildCommand": "cd client && npm run build:dist",
+  "outputDirectory": "client/dist"
 }
